@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Amirehsan Noori — AI Systems & Automation Architect",
+    "description": "I turn complexity into clarity. AI strategy and automation consulting that moves you from chaos to systems."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "work": "Work",
+    "about": "About",
+    "contact": "Contact",
+    "book": "Book a session"
+  },
+  "home": {
+    "kicker": "From Chaos to Systems",
+    "title": "Turning complexity into clarity.",
+    "subtitle": "I help founders and teams design AI strategy and automation systems that actually ship — calm, deliberate, and built to last.",
+    "ctaPrimary": "Book a consultation",
+    "ctaSecondary": "See my work",
+    "valueTitle": "AI without a system is just noise.",
+    "valueBody": "Most teams don't have an AI problem — they have a systems problem. I bring the architect's lens: map the chaos, design the structure, automate what matters.",
+    "pillars": [
+      { "title": "Strategy", "body": "Cut through hype. Decide where AI creates real leverage for your business." },
+      { "title": "Architecture", "body": "Design clear, durable systems and automations that fit how you actually work." },
+      { "title": "Execution", "body": "Ship working solutions — not slide decks — with a path you can maintain." }
+    ]
+  },
+  "services": {
+    "title": "AI Consulting",
+    "intro": "Focused sessions to move you from question to clear next step. Pick the depth you need.",
+    "tiers": [
+      {
+        "name": "Discovery Call",
+        "duration": "30 minutes · Free",
+        "body": "A short call to understand your goal and see if we're a fit. No prep needed.",
+        "cta": "Book free call"
+      },
+      {
+        "name": "Strategy Session",
+        "duration": "60 minutes",
+        "body": "A deep working session on your specific AI or automation challenge, ending with concrete next steps.",
+        "cta": "Book session"
+      }
+    ],
+    "note": "Payment is confirmed before your slot is reserved."
+  },
+  "work": {
+    "title": "Selected Work",
+    "intro": "Systems I've architected — turning tangled operations into structured, automated platforms.",
+    "projects": [
+      { "name": "FinanceOS", "body": "A unified financial operations platform that replaced scattered spreadsheets with one structured, automated source of truth." },
+      { "name": "Logistics ERP", "body": "An end-to-end ERP for procurement and logistics, designed to make a complex supply chain legible and controllable." }
+    ]
+  },
+  "about": {
+    "title": "About",
+    "lead": "I'm Amirehsan Noori — an architect of AI systems and automation.",
+    "body": "I work like an architect: I see the structure underneath the chaos, then design systems that are clear, durable, and genuinely useful. No hype, no buzzwords — just strategy, structure, and things that work. My role is to take complex, tangled problems and return them to you as calm, well-designed systems.",
+    "values": ["Clarity over complexity", "Strategy before tools", "Systems that last"]
+  },
+  "contact": {
+    "title": "Let's talk",
+    "intro": "Have a project or a question? Send a note and I'll get back to you.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send message",
+    "or": "Or book a session directly."
+  },
+  "footer": {
+    "tagline": "From chaos to systems.",
+    "rights": "All rights reserved."
+  },
+  "theme": { "toggle": "Toggle theme" }
+}
