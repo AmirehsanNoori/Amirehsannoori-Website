@@ -71,5 +71,25 @@
     "tagline": "From chaos to systems.",
     "rights": "All rights reserved."
   },
-  "theme": { "toggle": "Toggle theme" }
+  "theme": { "toggle": "Toggle theme" },
+  "auth": {
+    "loginTitle": "Sign in",
+    "loginSubtitle": "Enter your email and we'll send you a one-time code.",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "sendCode": "Send code",
+    "sending": "Sending…",
+    "codeSentTo": "We sent a 6-digit code to",
+    "code": "Verification code",
+    "verify": "Verify & sign in",
+    "verifying": "Verifying…",
+    "google": "Continue with Google",
+    "or": "or",
+    "changeEmail": "Use a different email",
+    "login": "Sign in",
+    "account": "Account",
+    "signedInAs": "Signed in as",
+    "signOut": "Sign out",
+    "genericError": "Something went wrong. Please try again."
+  }
 }

@@ -3,6 +3,7 @@ import type { Dictionary, Locale } from "@/lib/i18n";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { AuthNav } from "./AuthNav";
 
 export function Header({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const base = `/${lang}`;
@@ -34,6 +35,11 @@ export function Header({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <div className="flex items-center gap-2">
           <LanguageSwitcher current={lang} />
           <ThemeToggle label={dict.theme.toggle} />
+          <AuthNav
+            lang={lang}
+            loginLabel={dict.auth.login}
+            accountLabel={dict.auth.account}
+          />
           <Link
             href={`${base}/services`}
             className="hidden h-9 items-center rounded-md bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:inline-flex"

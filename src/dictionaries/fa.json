@@ -71,5 +71,25 @@
     "tagline": "از آشفتگی تا سیستم‌ها.",
     "rights": "همهٔ حقوق محفوظ است."
   },
-  "theme": { "toggle": "تغییر حالت نمایش" }
+  "theme": { "toggle": "تغییر حالت نمایش" },
+  "auth": {
+    "loginTitle": "ورود",
+    "loginSubtitle": "ایمیلت را وارد کن تا یک کد یک‌بارمصرف برایت بفرستیم.",
+    "email": "ایمیل",
+    "emailPlaceholder": "you@example.com",
+    "sendCode": "ارسال کد",
+    "sending": "در حال ارسال…",
+    "codeSentTo": "یک کد ۶ رقمی فرستادیم به",
+    "code": "کد تأیید",
+    "verify": "تأیید و ورود",
+    "verifying": "در حال تأیید…",
+    "google": "ادامه با Google",
+    "or": "یا",
+    "changeEmail": "تغییر ایمیل",
+    "login": "ورود",
+    "account": "حساب کاربری",
+    "signedInAs": "واردشده با",
+    "signOut": "خروج",
+    "genericError": "مشکلی پیش آمد. دوباره تلاش کن."
+  }
 }
