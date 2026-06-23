@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
+import { LogoMark } from "@/components/Logo";
 
 export default async function AboutPage({
   params,
@@ -37,9 +38,7 @@ export default async function AboutPage({
           className="hidden md:flex h-40 w-40 items-center justify-center rounded-2xl border border-border bg-surface"
           aria-hidden="true"
         >
-          <span className="brand-gradient-text font-heading text-6xl font-bold leading-none select-none">
-            AN
-          </span>
+          <LogoMark size={96} />
         </div>
       </div>
 

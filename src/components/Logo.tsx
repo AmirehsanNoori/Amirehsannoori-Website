@@ -1,97 +1,56 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 /**
- * AN monogram — geometric strokes on a gradient tile.
- * Blueprint concept: precise, architect-grade letterforms.
- * Use `size` to scale proportionally (default matches header h-9 / 36px container).
+ * AN monogram — A and N fused into one geometric mark.
+ *
+ * Brand concept: "from chaos to systems."
+ * Left side (A):  left leg is intentionally short / broken — open, chaotic.
+ * Right side (N): two full verticals + diagonal — structured, complete.
+ * Shared stroke:  A's implied right leg IS N's central diagonal.
  */
 export function LogoMark({ size = 36 }: { size?: number }) {
+  const w = Math.round(size * 0.64);
+  const h = Math.round(size * 0.72);
   return (
     <span
       className="brand-gradient inline-flex shrink-0 items-center justify-center rounded-[8px]"
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      {/* Viewport 30×30: A occupies left half, N occupies right half */}
+      {/*
+        viewBox 26x30  (portrait, mirrors brand guide proportions)
+
+        Peak (A apex / N top-left)     : (13, 3)
+        A left-leg base                : (2, 28)
+        A left-leg SHORT end           : (6, 15)  -- stops at ~55% height (broken)
+        A crossbar (y=19)              : x~5 (on left leg) to x~20 (on shared diagonal)
+        Shared diagonal (A right / N central): (13,3) -> (25,28)
+        N left vertical                : (13,3)  -> (13,28)
+        N right vertical               : (25,3)  -> (25,28)
+      */}
       <svg
-        width={Math.round(size * 0.67)}
-        height={Math.round(size * 0.67)}
-        viewBox="0 0 30 30"
+        width={w}
+        height={h}
+        viewBox="0 0 26 30"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* ── A ─────────────────────────────────────────── */}
-        {/* Left diagonal: (1,28) → peak (7,2) */}
-        {/* Right diagonal: peak (7,2) → (13,28) */}
-        <path
-          d="M1 28L7 2L13 28"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Crossbar at y=17.5 — interpolated between diagonals */}
-        <line
-          x1="3.6"
-          y1="17.5"
-          x2="10.4"
-          y2="17.5"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
+        {/* A left leg (short/broken -- chaos side) */}
+        <line x1="2" y1="28" x2="6" y2="15" stroke="white" strokeWidth="1.7" strokeLinecap="round" />
+        {/* A crossbar connecting the broken left leg to the shared diagonal */}
+        <line x1="5" y1="19" x2="20" y2="19" stroke="white" strokeWidth="1.7" strokeLinecap="round" />
 
-        {/* ── N ─────────────────────────────────────────── */}
-        {/* Left vertical */}
-        <line
-          x1="16"
-          y1="2"
-          x2="16"
-          y2="28"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* Diagonal stroke */}
-        <line
-          x1="16"
-          y1="2"
-          x2="28"
-          y2="28"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* Right vertical */}
-        <line
-          x1="28"
-          y1="2"
-          x2="28"
-          y2="28"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
+        {/* Shared diagonal: A right-leg implied + N central diagonal */}
+        <line x1="13" y1="3" x2="25" y2="28" stroke="white" strokeWidth="1.7" strokeLinecap="round" />
 
-        {/* Blueprint detail: thin crosshair (suggests precision/architecture) */}
-        <line
-          x1="0"
-          y1="15"
-          x2="30"
-          y2="15"
-          stroke="white"
-          strokeWidth="0.35"
-          strokeOpacity="0.25"
-        />
-        <line
-          x1="15"
-          y1="0"
-          x2="15"
-          y2="30"
-          stroke="white"
-          strokeWidth="0.35"
-          strokeOpacity="0.25"
-        />
+        {/* N left vertical (full height -- systems side) */}
+        <line x1="13" y1="3" x2="13" y2="28" stroke="white" strokeWidth="1.7" strokeLinecap="round" />
+        {/* N right vertical (complete) */}
+        <line x1="25" y1="3" x2="25" y2="28" stroke="white" strokeWidth="1.7" strokeLinecap="round" />
+
+        {/* Blueprint crosshair -- very subtle, architect/precision aesthetic */}
+        <line x1="0" y1="15" x2="26" y2="15" stroke="white" strokeWidth="0.3" strokeOpacity="0.2" />
+        <line x1="13" y1="0" x2="13" y2="30" stroke="white" strokeWidth="0.3" strokeOpacity="0.2" />
       </svg>
     </span>
   );
@@ -102,10 +61,10 @@ export function Logo({ href }: { href: string }) {
     <Link
       href={href}
       className="inline-flex items-center gap-2.5"
-      aria-label="Amirehsan Noori — Home"
+      aria-label="Amirehsan Noori -- Home"
     >
       <LogoMark size={36} />
-      <span className="hidden font-heading text-sm font-semibold tracking-tight text-foreground sm:inline">
+      <span className="hidden font-heading text-xs font-semibold uppercase tracking-widest text-foreground sm:inline">
         Amirehsan Noori
       </span>
     </Link>
