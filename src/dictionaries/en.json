@@ -65,6 +65,10 @@
     "email": "Email",
     "message": "Message",
     "submit": "Send message",
+    "sending": "Sending…",
+    "sent": "Message sent!",
+    "sentBody": "Thanks for reaching out. I'll get back to you within 48 hours.",
+    "error": "Something went wrong. Please try again.",
     "or": "Or book a session directly."
   },
   "footer": {
@@ -115,6 +119,14 @@
     "account": "Account",
     "signedInAs": "Signed in as",
     "signOut": "Sign out",
-    "genericError": "Something went wrong. Please try again."
+    "genericError": "Something went wrong. Please try again.",
+    "bookings": "My bookings",
+    "noBookings": "No bookings yet.",
+    "bookCta": "Book a session",
+    "status_pending": "Pending confirmation",
+    "status_paid": "Payment received",
+    "status_confirmed": "Confirmed",
+    "status_cancelled": "Cancelled",
+    "status_completed": "Completed"
   }
 }
