@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/lib/i18n";
+import { Logo } from "@/components/Logo";
 
 export function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const year = new Date().getFullYear();
@@ -18,15 +19,8 @@ export function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           {/* Brand */}
           <div>
-            <Link href={base} className="inline-flex items-center gap-2" aria-label="Amirehsan Noori">
-              <span className="brand-gradient inline-flex h-8 w-8 items-center justify-center rounded-md font-heading text-xs font-bold text-white">
-                AN
-              </span>
-              <span className="font-heading text-sm font-semibold tracking-tight text-foreground">
-                Amirehsan Noori
-              </span>
-            </Link>
-            <p className="mt-2 max-w-xs text-sm text-muted">{dict.footer.tagline}</p>
+            <Logo href={base} />
+            <p className="mt-3 max-w-xs text-sm text-muted">{dict.footer.tagline}</p>
           </div>
 
           {/* Nav links */}
