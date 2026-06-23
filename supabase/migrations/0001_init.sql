@@ -168,6 +168,10 @@ drop policy if exists "bookings_select_own" on public.bookings;
 create policy "bookings_select_own" on public.bookings
   for select to authenticated using ((select auth.uid()) = user_id);
 
+drop policy if exists "bookings_insert_own" on public.bookings;
+create policy "bookings_insert_own" on public.bookings
+  for insert to authenticated with check ((select auth.uid()) = user_id);
+
 -- payments: users read only their own (writes go through the server/service-role)
 drop policy if exists "payments_select_own" on public.payments;
 create policy "payments_select_own" on public.payments
