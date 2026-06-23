@@ -41,7 +41,7 @@ export function Header({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             accountLabel={dict.auth.account}
           />
           <Link
-            href={`${base}/services`}
+            href={`${base}/book`}
             className="hidden h-9 items-center rounded-md bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:inline-flex"
           >
             {dict.nav.book}

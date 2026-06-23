@@ -15,56 +15,110 @@ export default async function HomePage({
 
   return (
     <>
-      {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 pb-16 pt-20 sm:px-6 sm:pt-28">
-        <p className="brand-gradient-text font-heading text-sm font-semibold uppercase tracking-widest">
-          {t.kicker}
-        </p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-          {t.title}
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-muted">{t.subtitle}</p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link
-            href={`${base}/services`}
-            className="inline-flex h-11 items-center rounded-md bg-foreground px-6 text-sm font-medium text-background transition-opacity hover:opacity-90"
-          >
-            {t.ctaPrimary}
-          </Link>
-          <Link
-            href={`${base}/work`}
-            className="inline-flex h-11 items-center rounded-md border border-border px-6 text-sm font-medium text-foreground transition-colors hover:bg-surface"
-          >
-            {t.ctaSecondary}
-          </Link>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden">
+        {/* Blueprint grid */}
+        <div className="bg-grid absolute inset-0 opacity-50 dark:opacity-30" aria-hidden="true" />
+        {/* Radial fade over grid */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% -10%, transparent 60%, var(--color-background) 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6 sm:pb-32 sm:pt-36">
+          {/* Kicker pill */}
+          <div className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5">
+            <span className="brand-gradient h-1.5 w-1.5 rounded-full" aria-hidden="true" />
+            <span className="font-heading text-xs font-semibold uppercase tracking-widest text-muted">
+              {t.kicker}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="animate-fade-up delay-100 mt-6 max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+            {t.title}
+          </h1>
+
+          {/* Subtitle */}
+          <p className="animate-fade-up delay-200 mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            {t.subtitle}
+          </p>
+
+          {/* CTAs */}
+          <div className="animate-fade-up delay-300 mt-10 flex flex-wrap gap-3">
+            <Link
+              href={`${base}/book`}
+              className="inline-flex h-12 items-center gap-2 rounded-md bg-foreground px-7 text-sm font-semibold text-background shadow-sm transition-opacity hover:opacity-85"
+            >
+              {t.ctaPrimary}
+            </Link>
+            <Link
+              href={`${base}/work`}
+              className="inline-flex h-12 items-center rounded-md border border-border px-7 text-sm font-medium text-foreground transition-colors hover:border-foreground/40 hover:bg-surface"
+            >
+              {t.ctaSecondary} →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Value */}
-      <section className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <h2 className="max-w-2xl text-2xl font-semibold sm:text-3xl">
-            {t.valueTitle}
-          </h2>
-          <p className="mt-4 max-w-2xl text-muted">{t.valueBody}</p>
+      {/* ── Value statement ──────────────────────────────────────────── */}
+      <section className="border-y border-border bg-surface">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="grid gap-10 md:grid-cols-2 md:gap-20 md:items-center">
+            <div>
+              <h2 className="text-2xl font-bold leading-snug sm:text-3xl">
+                {t.valueTitle}
+              </h2>
+            </div>
+            <div>
+              <p className="text-base leading-relaxed text-muted">{t.valueBody}</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-3">
+      {/* ── Pillars ──────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+        <div className="grid gap-px border border-border bg-border sm:grid-cols-3">
           {t.pillars.map((p, i) => (
             <div
               key={p.title}
-              className="rounded-lg border border-border p-6"
+              className="group flex flex-col bg-background p-8 transition-colors hover:bg-surface"
             >
-              <span className="brand-gradient-text font-heading text-2xl font-bold">
+              <span className="brand-gradient-text font-heading text-3xl font-bold leading-none">
                 0{i + 1}
               </span>
-              <h3 className="mt-3 text-lg font-semibold">{p.title}</h3>
-              <p className="mt-2 text-sm text-muted">{p.body}</p>
+              <h3 className="mt-5 text-lg font-semibold">{p.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{p.body}</p>
+              <div className="brand-gradient mt-8 h-px w-0 transition-all duration-500 group-hover:w-full" />
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── CTA strip ────────────────────────────────────────────────── */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="brand-gradient-text font-heading text-sm font-semibold uppercase tracking-widest">
+                {dict.nav.book}
+              </p>
+              <p className="mt-2 text-2xl font-bold sm:text-3xl">{dict.services.tiers[0].name}</p>
+              <p className="mt-1 text-sm text-muted">{dict.services.tiers[0].duration}</p>
+            </div>
+            <Link
+              href={`${base}/book`}
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-md bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-85"
+            >
+              {dict.services.tiers[0].cta} →
+            </Link>
+          </div>
         </div>
       </section>
     </>

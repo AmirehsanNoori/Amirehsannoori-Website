@@ -72,3 +72,49 @@
   background-clip: text;
   color: transparent;
 }
+
+/* ----- Blueprint grid background ----- */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ----- Entrance animations ----- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease both;
+}
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in { animation: none; }
+}
+
+/* Text selection highlight */
+::selection {
+  background-color: color-mix(in srgb, var(--color-brand-blue) 18%, transparent);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}

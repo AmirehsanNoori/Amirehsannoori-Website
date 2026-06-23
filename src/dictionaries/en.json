@@ -48,8 +48,18 @@
     "title": "Selected Work",
     "intro": "Systems I've architected — turning tangled operations into structured, automated platforms.",
     "projects": [
-      { "name": "FinanceOS", "body": "A unified financial operations platform that replaced scattered spreadsheets with one structured, automated source of truth." },
-      { "name": "Logistics ERP", "body": "An end-to-end ERP for procurement and logistics, designed to make a complex supply chain legible and controllable." }
+      {
+        "name": "FinanceOS",
+        "tags": ["Financial Platform", "Automation", "FinTech"],
+        "outcome": "Replaced 12 spreadsheets with one platform",
+        "body": "A unified financial operations platform that replaced scattered spreadsheets with one structured, automated source of truth."
+      },
+      {
+        "name": "Logistics ERP",
+        "tags": ["ERP System", "Logistics", "Supply Chain"],
+        "outcome": "End-to-end supply chain visibility",
+        "body": "An end-to-end ERP for procurement and logistics, designed to make a complex supply chain legible and controllable."
+      }
     ]
   },
   "about": {
