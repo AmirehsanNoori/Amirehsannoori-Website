@@ -59,6 +59,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Run on everything except Next internals, API routes, the /auth handlers,
-  // and files with an extension.
-  matcher: ["/((?!_next|api|auth|.*\\..*).*)"],
+  // the chrome-free /admin and /widget roots (each has its own layout outside
+  // [lang] and must never get a locale prefix), and files with an extension.
+  matcher: ["/((?!_next|api|auth|admin|widget|.*\\..*).*)"],
 };
