@@ -1,6 +1,12 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 
+// Must render per-request: welcome_message is admin-editable and this page
+// has no cookies()/auth call to implicitly force dynamic rendering, so without
+// this it would statically prerender at build time (stale config, and a hard
+// build-time dependency on Supabase env vars being present at build time).
+export const dynamic = "force-dynamic";
+
 export default async function WidgetPage() {
   const supabase = createAdminClient();
   const { data } = await supabase
