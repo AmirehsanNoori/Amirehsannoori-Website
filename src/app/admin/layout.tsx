@@ -22,10 +22,15 @@ export const metadata: Metadata = {
 
 const nav = [
   { href: "/admin", label: "داشبورد" },
+  { href: "/admin/conversations", label: "گفتگوها" },
+  { href: "/admin/leads", label: "لیدها" },
   { href: "/admin/knowledge", label: "پایگاه دانش" },
+  { href: "/admin/feedback", label: "بازخورد" },
   { href: "/admin/settings", label: "مدل و Embedding" },
   { href: "/admin/persona", label: "پرسونا" },
   { href: "/admin/channels", label: "کانال‌ها" },
+  { href: "/admin/team", label: "اعضای پنل" },
+  { href: "/admin/audit", label: "لاگ فعالیت" },
 ];
 
 export default async function AdminLayout({

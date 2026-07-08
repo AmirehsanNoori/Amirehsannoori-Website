@@ -8,6 +8,7 @@ import {
   getRecentMessages,
   saveMessage,
   maybeSummarize,
+  checkRateLimit,
 } from "./memory";
 import type { ChatCompletionMessage } from "./openrouter";
 import type { BrainRequest, BrainEvent, Citation } from "./types";
@@ -29,6 +30,18 @@ export async function* runChat(req: BrainRequest): AsyncGenerator<BrainEvent> {
       userName: req.userName,
       locale,
     });
+    // Abuse/cost guard — before anything hits Cohere/OpenRouter.
+    const withinLimit = await checkRateLimit(conversation.id);
+    if (!withinLimit) {
+      yield {
+        type: "token",
+        value:
+          "تعداد پیام‌های شما در بازهٔ اخیر زیاد بوده. لطفاً چند دقیقه بعد دوباره امتحان کنید.",
+      };
+      yield { type: "done", conversationId: conversation.id, messageId: "" };
+      return;
+    }
+
     const [modelCfg, systemPrompt] = await Promise.all([
       getModelConfig(req.channel),
       getActiveSystemPrompt(),

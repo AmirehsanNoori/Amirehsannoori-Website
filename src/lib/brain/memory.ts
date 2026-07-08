@@ -133,6 +133,28 @@ export async function saveMessage(input: {
   return data.id;
 }
 
+const RATE_LIMIT_WINDOW_MINUTES = 10;
+const RATE_LIMIT_MAX_MESSAGES = 20;
+
+/**
+ * Cheap abuse/cost guard: cap user messages per conversation within a rolling
+ * window. Checked before calling the model so a runaway client can't burn
+ * OpenRouter/Cohere budget. DB-backed (not in-memory) since this runs across
+ * stateless serverless invocations.
+ */
+export async function checkRateLimit(conversationId: string): Promise<boolean> {
+  const supabase = createAdminClient();
+  const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MINUTES * 60_000).toISOString();
+  const { count } = await supabase
+    .from("messages")
+    .select("id", { count: "exact", head: true })
+    .eq("conversation_id", conversationId)
+    .eq("role", "user")
+    .gte("created_at", since);
+
+  return (count ?? 0) < RATE_LIMIT_MAX_MESSAGES;
+}
+
 /**
  * Regenerate the rolling summary when a conversation grows long. Called after a
  * turn completes; uses a cheap model via OpenRouter. Best-effort (never throws
