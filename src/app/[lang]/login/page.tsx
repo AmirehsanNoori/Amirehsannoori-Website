@@ -1,61 +1,63 @@
 "use client";
 
-import { use, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, use, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import faDict from "@/dictionaries/fa.json";
 import enDict from "@/dictionaries/en.json";
 
-type Step = "email" | "code";
+// Email sign-in is link-based (Supabase's default email template only ships
+// {{ .ConfirmationURL }} — customizing it to show a typed {{ .Token }} code
+// requires a paid plan or custom SMTP). So this sends a magic link, not a
+// code, and /auth/callback completes the sign-in when it's clicked.
+type Step = "email" | "sent";
 
 export default function LoginPage({
   params,
 }: {
   params: Promise<{ lang: string }>;
 }) {
+  // useSearchParams() requires a Suspense boundary for static prerendering.
+  return (
+    <Suspense fallback={null}>
+      <LoginForm params={params} />
+    </Suspense>
+  );
+}
+
+function LoginForm({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = use(params);
   const t = (lang === "en" ? enDict : faDict).auth;
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || `/${lang}/account`;
   const supabase = createClient();
 
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function sendCode(e: React.FormEvent) {
+  async function sendLink(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      },
     });
     setLoading(false);
     if (error) {
       setError(error.message || t.genericError);
       return;
     }
-    setStep("code");
-  }
-
-  async function verifyCode(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token: code.trim(),
-      type: "email",
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message || t.genericError);
-      return;
-    }
-    router.push(`/${lang}/account`);
-    router.refresh();
+    setStep("sent");
   }
 
   async function signInWithGoogle() {
@@ -63,7 +65,7 @@ export default function LoginPage({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/${lang}/account`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
       },
     });
     if (error) setError(error.message || t.genericError);
@@ -81,7 +83,7 @@ export default function LoginPage({
       )}
 
       {step === "email" ? (
-        <form onSubmit={sendCode} className="mt-8 space-y-4">
+        <form onSubmit={sendLink} className="mt-8 space-y-4">
           <div>
             <label className="mb-1.5 block text-sm font-medium" htmlFor="email">
               {t.email}
@@ -122,45 +124,23 @@ export default function LoginPage({
           </button>
         </form>
       ) : (
-        <form onSubmit={verifyCode} className="mt-8 space-y-4">
+        <div className="mt-8 space-y-4">
           <p className="text-sm text-muted">
             {t.codeSentTo} <span dir="ltr" className="font-medium text-foreground">{email}</span>
+            {" — "}
+            {t.linkSentBody}
           </p>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium" htmlFor="code">
-              {t.code}
-            </label>
-            <input
-              id="code"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              required
-              dir="ltr"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="123456"
-              className="h-11 w-full rounded-md border border-border bg-background px-3 text-center text-lg tracking-[0.4em] outline-none focus:border-brand-blue"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="inline-flex h-11 w-full items-center justify-center rounded-md bg-foreground px-6 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-          >
-            {loading ? t.verifying : t.verify}
-          </button>
           <button
             type="button"
             onClick={() => {
               setStep("email");
-              setCode("");
               setError(null);
             }}
             className="block w-full text-center text-sm text-muted hover:text-foreground"
           >
             {t.changeEmail}
           </button>
-        </form>
+        </div>
       )}
     </section>
   );
