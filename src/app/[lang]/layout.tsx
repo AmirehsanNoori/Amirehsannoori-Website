@@ -11,6 +11,7 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ThemeScript } from "@/components/ThemeScript";
+import { WidgetEmbed } from "@/components/WidgetEmbed";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ export default async function RootLayout({
         <Header lang={lang} dict={dict} />
         <main className="flex-1">{children}</main>
         <Footer lang={lang} dict={dict} />
+        <WidgetEmbed />
       </body>
     </html>
   );
