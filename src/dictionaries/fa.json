@@ -114,6 +114,9 @@
   "auth": {
     "loginTitle": "ورود",
     "loginSubtitle": "ایمیلت را بنویس تا یک لینک ورود برایت بفرستیم.",
+    "linkTab": "لینک ایمیل",
+    "passwordTab": "رمز عبور",
+    "password": "رمز عبور",
     "email": "ایمیل",
     "emailPlaceholder": "you@example.com",
     "sendCode": "ارسال لینک ورود",

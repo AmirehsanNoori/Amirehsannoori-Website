@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, use, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import faDict from "@/dictionaries/fa.json";
 import enDict from "@/dictionaries/en.json";
@@ -10,7 +10,13 @@ import enDict from "@/dictionaries/en.json";
 // {{ .ConfirmationURL }} — customizing it to show a typed {{ .Token }} code
 // requires a paid plan or custom SMTP). So this sends a magic link, not a
 // code, and /auth/callback completes the sign-in when it's clicked.
+//
+// Password sign-in is offered as a second tab for accounts that have one set
+// (currently just the admin) — it doesn't depend on email delivery at all,
+// which matters since the admin panel must stay reachable even if outbound
+// mail is misconfigured or rate-limited.
 type Step = "email" | "sent";
+type Mode = "link" | "password";
 
 export default function LoginPage({
   params,
@@ -35,9 +41,12 @@ function LoginForm({
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || `/${lang}/account`;
   const supabase = createClient();
+  const router = useRouter();
 
+  const [mode, setMode] = useState<Mode>("link");
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,6 +67,20 @@ function LoginForm({
       return;
     }
     setStep("sent");
+  }
+
+  async function signInWithPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) {
+      setError(error.message || t.genericError);
+      return;
+    }
+    router.push(next);
+    router.refresh();
   }
 
   async function signInWithGoogle() {
@@ -82,8 +105,31 @@ function LoginForm({
         </p>
       )}
 
-      {step === "email" ? (
-        <form onSubmit={sendLink} className="mt-8 space-y-4">
+      {step === "email" && (
+        <div className="mt-8 flex gap-1 rounded-lg bg-surface p-1">
+          <button
+            type="button"
+            onClick={() => setMode("link")}
+            className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
+              mode === "link" ? "bg-background text-foreground shadow-sm" : "text-muted"
+            }`}
+          >
+            {t.linkTab}
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("password")}
+            className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
+              mode === "password" ? "bg-background text-foreground shadow-sm" : "text-muted"
+            }`}
+          >
+            {t.passwordTab}
+          </button>
+        </div>
+      )}
+
+      {step === "email" && mode === "link" && (
+        <form onSubmit={sendLink} className="mt-4 space-y-4">
           <div>
             <label className="mb-1.5 block text-sm font-medium" htmlFor="email">
               {t.email}
@@ -123,7 +169,52 @@ function LoginForm({
             {t.google}
           </button>
         </form>
-      ) : (
+      )}
+
+      {step === "email" && mode === "password" && (
+        <form onSubmit={signInWithPassword} className="mt-4 space-y-4">
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" htmlFor="email-pw">
+              {t.email}
+            </label>
+            <input
+              id="email-pw"
+              type="email"
+              required
+              autoComplete="email"
+              dir="ltr"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t.emailPlaceholder}
+              className="h-11 w-full rounded-md border border-border bg-background px-3 text-sm outline-none focus:border-brand-blue"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" htmlFor="password">
+              {t.password}
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              dir="ltr"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-11 w-full rounded-md border border-border bg-background px-3 text-sm outline-none focus:border-brand-blue"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="inline-flex h-11 w-full items-center justify-center rounded-md bg-foreground px-6 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
+          >
+            {loading ? t.verifying : t.login}
+          </button>
+        </form>
+      )}
+
+      {step === "sent" && (
         <div className="mt-8 space-y-4">
           <p className="text-sm text-muted">
             {t.codeSentTo} <span dir="ltr" className="font-medium text-foreground">{email}</span>
