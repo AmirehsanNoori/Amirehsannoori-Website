@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, use, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { use, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import faDict from "@/dictionaries/fa.json";
 import enDict from "@/dictionaries/en.json";
@@ -23,23 +23,13 @@ export default function LoginPage({
 }: {
   params: Promise<{ lang: string }>;
 }) {
-  // useSearchParams() requires a Suspense boundary for static prerendering.
-  return (
-    <Suspense fallback={null}>
-      <LoginForm params={params} />
-    </Suspense>
-  );
-}
-
-function LoginForm({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
   const { lang } = use(params);
   const t = (lang === "en" ? enDict : faDict).auth;
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next") || `/${lang}/account`;
+  // Read `next` lazily (not via useSearchParams()) so this page keeps
+  // rendering fully at build time instead of needing a Suspense fallback.
+  function getNext(): string {
+    return new URLSearchParams(window.location.search).get("next") || `/${lang}/account`;
+  }
   const supabase = createClient();
   const router = useRouter();
 
@@ -58,7 +48,7 @@ function LoginForm({
       email,
       options: {
         shouldCreateUser: true,
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(getNext())}`,
       },
     });
     setLoading(false);
@@ -79,7 +69,7 @@ function LoginForm({
       setError(error.message || t.genericError);
       return;
     }
-    router.push(next);
+    router.push(getNext());
     router.refresh();
   }
 
@@ -88,7 +78,7 @@ function LoginForm({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(getNext())}`,
       },
     });
     if (error) setError(error.message || t.genericError);
